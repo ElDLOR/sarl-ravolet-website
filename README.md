@@ -1,36 +1,177 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏠 SARL RAVOLET — Site Web Vitrine
 
-## Getting Started
+Site web professionnel de la **SARL RAVOLET**, spécialisée en climatisation, plomberie et électricité à Moulins (03) et ses alentours (50 km).
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 📋 Informations de l'entreprise
+
+| Champ | Valeur |
+|---|---|
+| **Raison sociale** | SARL RAVOLET |
+| **Activité** | Climatisation / Plomberie / Électricité |
+| **SIRET** | 989 647 920 00010 |
+| **Téléphone** | 04 70 43 77 80 |
+| **Email professionnel** | sarl.ravolet@gmail.com |
+| **Zone d'intervention** | Moulins (03) — Rayon de 50 km |
+
+---
+
+## 🛠️ Stack Technique
+
+### Langages & Frameworks
+
+| Technologie | Version | Rôle |
+|---|---|---|
+| **TypeScript** | 5.x | Langage principal |
+| **React** | 19.2 | Bibliothèque UI |
+| **Next.js** | 16.2.2 | Framework web (App Router) |
+| **Tailwind CSS** | 4.x | Framework CSS (design & styles) |
+
+### Bibliothèques
+
+| Dépendance | Rôle |
+|---|---|
+| `@supabase/supabase-js` | Client base de données Supabase |
+| `lucide-react` | Icônes SVG |
+| `leaflet` + `react-leaflet` | Carte interactive (zone d'intervention) |
+| `resend` | Envoi d'emails de notification |
+
+### Services externes
+
+| Service | Rôle | Plan |
+|---|---|---|
+| **Supabase** (Frankfurt, EU) | Base de données PostgreSQL (messages, avis) | Gratuit |
+| **Resend** | Envoi d'emails de notification | Gratuit (100 emails/jour) |
+| **Vercel** | Hébergement du site | Gratuit (Hobby) |
+| **GitHub** | Hébergement du code source | Gratuit |
+| **OpenStreetMap** | Fond de carte (page À propos) | Gratuit, sans clé API |
+
+---
+
+## 📁 Structure du projet
+
+```
+app/
+├── page.tsx                       # Page d'accueil
+├── layout.tsx                     # Layout global (header + footer)
+├── a-propos/page.tsx              # Page À propos + carte interactive
+├── services/page.tsx              # Page Services (Clim, Plomberie, Élec)
+├── realisations/page.tsx          # Galerie photos par catégorie
+├── contact/page.tsx               # Formulaire de contact
+├── mentions-legales/page.tsx      # Mentions légales
+├── politique-de-confidentialite/  # Politique RGPD
+├── api/
+│   ├── contact/route.ts           # API: enregistrement message + email
+│   └── avis/route.ts              # API: GET avis publiés / POST nouvel avis
+components/
+├── Header.tsx                     # Barre de navigation
+├── Footer.tsx                     # Pied de page
+├── AvisClients.tsx                # Système d'avis (affichage + formulaire)
+├── ImageCarousel.tsx              # Carrousel d'images (page Réalisations)
+├── MapZone.tsx                    # Carte Leaflet (zone d'intervention)
+├── MapWrapper.tsx                 # Wrapper client pour la carte
+├── ScrollReveal.tsx               # Animations au scroll
+└── CookieBanner.tsx               # Bannière RGPD cookies
+lib/
+└── supabase.ts                    # Client Supabase
+public/
+├── logo.png                       # Logo de l'entreprise
+└── realisations/                  # Photos de chantiers (Clim, Plomberie, Élec)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Variables d'environnement
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Fichier `.env.local` (⚠️ **ne jamais commiter** — il est dans `.gitignore`) :
 
-## Learn More
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://yzpzelpcfyvzqndanosm.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<clé publique Supabase>
+SUPABASE_SERVICE_ROLE_KEY=<clé secrète Supabase>
 
-To learn more about Next.js, take a look at the following resources:
+# Resend (Email)
+RESEND_API_KEY=<clé API Resend>
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> Ces mêmes variables devront être configurées dans le Dashboard Vercel lors du déploiement.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🗄️ Base de données (Supabase)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Tables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**`messages_contact`** — Messages envoyés via le formulaire de contact
+```sql
+CREATE TABLE messages_contact (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nom TEXT NOT NULL,
+  email TEXT NOT NULL,
+  sujet TEXT NOT NULL,
+  message TEXT NOT NULL,
+  rgpd_consent BOOLEAN NOT NULL DEFAULT false,
+  consent_date TIMESTAMPTZ NOT NULL DEFAULT now(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+```
+
+**`avis_clients`** — Avis laissés par les clients (modération manuelle)
+```sql
+CREATE TABLE avis_clients (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  nom TEXT NOT NULL,
+  note INTEGER NOT NULL CHECK (note >= 1 AND note <= 5),
+  commentaire TEXT NOT NULL,
+  publie BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+```
+
+> Pour publier un avis : dans Supabase → Table Editor → `avis_clients` → passer `publie` à `TRUE`.
+
+---
+
+## 🚀 Développement local
+
+```bash
+# Installer les dépendances
+npm install
+
+# Lancer le serveur de développement
+npm run dev
+
+# Vérifier le build de production
+npm run build
+```
+
+---
+
+## 📧 Adresse email utilisée dans le code
+
+| Fichier | Utilisation | Email actuel |
+|---|---|---|
+| `app/api/contact/route.ts` (ligne 60) | Destinataire des notifications | `sarl.ravolet@gmail.com` |
+
+---
+
+## ✅ Conformité RGPD
+
+- ✅ Bannière de consentement cookies
+- ✅ Case de consentement obligatoire sur les formulaires
+- ✅ Horodatage du consentement (`consent_date`)
+- ✅ Politique de confidentialité complète
+- ✅ Mentions légales
+- ✅ Base de données hébergée en Europe (Supabase Frankfurt)
+
+---
+
+## 📝 TODO — Informations légales à compléter
+
+Les champs suivants sont marqués `TODO` dans `app/mentions-legales/page.tsx` :
+
+- [ ] **Numéro RCS** (Registre du Commerce)
+- [ ] **Numéro de TVA intracommunautaire**
+- [ ] **Adresse du siège social**
