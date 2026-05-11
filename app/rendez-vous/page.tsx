@@ -1,81 +1,23 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { CalendarDays, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { CalendarDays, Phone, Clock, CheckCircle2 } from "lucide-react";
+import { useEffect } from "react";
 
-type FormStatus = "idle" | "submitting" | "success" | "error";
+// ⚠️ REMPLACE CE LIEN PAR TON VRAI LIEN CALENDLY
+const CALENDLY_URL = "https://calendly.com/sarl-ravolet";
 
 export default function RendezVousPage() {
-    const [formStatus, setFormStatus] = useState<FormStatus>("idle");
-    const [errorMessage, setErrorMessage] = useState("");
+    // Charger le script Calendly
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://assets.calendly.com/assets/external/widget.js";
+        script.async = true;
+        document.body.appendChild(script);
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setFormStatus("submitting");
-        setErrorMessage("");
-
-        const formData = new FormData(e.currentTarget);
-        const data = {
-            nom: formData.get("nom") as string,
-            telephone: formData.get("telephone") as string,
-            email: formData.get("email") as string,
-            type_prestation: formData.get("type_prestation") as string,
-            type_intervention: formData.get("type_intervention") as string,
-            date_souhaitee: formData.get("date_souhaitee") as string,
-            creneau: formData.get("creneau") as string,
-            message: formData.get("message") as string,
-            rgpd_consent: formData.get("rgpd_consent") === "on",
+        return () => {
+            document.body.removeChild(script);
         };
-
-        try {
-            const response = await fetch("/api/rendez-vous", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                const result = await response.json();
-                throw new Error(result.error || "Une erreur est survenue");
-            }
-
-            setFormStatus("success");
-        } catch (err) {
-            setErrorMessage(
-                err instanceof Error ? err.message : "Une erreur est survenue"
-            );
-            setFormStatus("error");
-        }
-    };
-
-    if (formStatus === "success") {
-        return (
-            <>
-                <section className="bg-gradient-to-br from-navy via-navy-light to-blue-light pt-28 pb-16 md:pt-36 md:pb-20">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
-                            Prendre Rendez-vous
-                        </h1>
-                    </div>
-                </section>
-                <section className="py-16 md:py-24 bg-bg-light">
-                    <div className="max-w-xl mx-auto px-4 text-center">
-                        <div className="bg-white rounded-2xl p-10 border border-gray-100 shadow-sm">
-                            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-5" />
-                            <h2 className="text-2xl font-bold text-navy mb-3">
-                                Demande envoyée !
-                            </h2>
-                            <p className="text-text-muted leading-relaxed">
-                                Merci pour votre demande de rendez-vous. Notre équipe vous
-                                recontactera dans les plus brefs délais pour confirmer votre
-                                créneau.
-                            </p>
-                        </div>
-                    </div>
-                </section>
-            </>
-        );
-    }
+    }, []);
 
     return (
         <>
@@ -86,229 +28,87 @@ export default function RendezVousPage() {
                         Prendre Rendez-vous
                     </h1>
                     <p className="text-blue-lighter text-lg max-w-2xl mx-auto">
-                        Remplissez le formulaire ci-dessous et nous vous recontacterons
-                        rapidement.
+                        Réservez un créneau téléphonique directement dans notre agenda.
+                        Simple, rapide et gratuit.
                     </p>
                 </div>
             </section>
 
-            {/* Form */}
-            <section className="py-16 md:py-24 bg-bg-light">
-                <div className="max-w-2xl mx-auto px-4 sm:px-6">
-                    <div className="bg-white rounded-2xl p-6 sm:p-10 border border-gray-100 shadow-sm">
-                        <div className="flex items-center gap-3 mb-8">
-                            <CalendarDays className="w-6 h-6 text-blue-light" />
-                            <h2 className="text-xl font-semibold text-navy">
-                                Formulaire de rendez-vous
+            {/* Avantages */}
+            <section className="py-10 bg-white border-b border-gray-100">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                        <div className="flex flex-col items-center gap-3 p-4">
+                            <div className="w-12 h-12 bg-blue-light/10 rounded-xl flex items-center justify-center">
+                                <CalendarDays className="w-6 h-6 text-blue-light" />
+                            </div>
+                            <h3 className="font-semibold text-navy text-sm">Choisissez votre créneau</h3>
+                            <p className="text-text-muted text-xs">
+                                Consultez nos disponibilités en temps réel et sélectionnez le moment qui vous convient.
+                            </p>
+                        </div>
+                        <div className="flex flex-col items-center gap-3 p-4">
+                            <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                                <Phone className="w-6 h-6 text-accent" />
+                            </div>
+                            <h3 className="font-semibold text-navy text-sm">Appel téléphonique</h3>
+                            <p className="text-text-muted text-xs">
+                                Nous vous rappelons à l&apos;heure convenue pour discuter de votre projet.
+                            </p>
+                        </div>
+                        <div className="flex flex-col items-center gap-3 p-4">
+                            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                <CheckCircle2 className="w-6 h-6 text-green-600" />
+                            </div>
+                            <h3 className="font-semibold text-navy text-sm">Confirmation immédiate</h3>
+                            <p className="text-text-muted text-xs">
+                                Recevez une confirmation par email avec tous les détails de votre rendez-vous.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Calendly Embed */}
+            <section className="py-12 md:py-16 bg-bg-light">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-100">
+                            <CalendarDays className="w-5 h-5 text-blue-light" />
+                            <h2 className="text-lg font-semibold text-navy">
+                                Sélectionnez un créneau
                             </h2>
                         </div>
+                        <div
+                            className="calendly-inline-widget"
+                            data-url={CALENDLY_URL}
+                            style={{ minWidth: "320px", height: "700px" }}
+                        />
+                    </div>
 
-                        {formStatus === "error" && (
-                            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
-                                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-                                <p className="text-red-700 text-sm">{errorMessage}</p>
+                    {/* Info supplémentaire */}
+                    <div className="mt-8 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                        <div className="flex items-start gap-4">
+                            <div className="w-10 h-10 bg-blue-light/10 rounded-xl flex items-center justify-center shrink-0">
+                                <Clock className="w-5 h-5 text-blue-light" />
                             </div>
-                        )}
-
-                        <form onSubmit={handleSubmit} className="space-y-5">
-                            {/* Nom */}
                             <div>
-                                <label
-                                    htmlFor="nom"
-                                    className="block text-sm font-medium text-navy mb-1.5"
-                                >
-                                    Nom complet <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="nom"
-                                    name="nom"
-                                    required
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition"
-                                    placeholder="Jean Dupont"
-                                />
-                            </div>
-
-                            {/* Téléphone + Email */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                <div>
-                                    <label
-                                        htmlFor="telephone"
-                                        className="block text-sm font-medium text-navy mb-1.5"
-                                    >
-                                        Téléphone <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="tel"
-                                        id="telephone"
-                                        name="telephone"
-                                        required
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition"
-                                        placeholder="06 12 34 56 78"
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="email"
-                                        className="block text-sm font-medium text-navy mb-1.5"
-                                    >
-                                        Email <span className="text-red-500">*</span>
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        required
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition"
-                                        placeholder="jean.dupont@email.com"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Type prestation + Type intervention */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                <div>
-                                    <label
-                                        htmlFor="type_prestation"
-                                        className="block text-sm font-medium text-navy mb-1.5"
-                                    >
-                                        Type de prestation <span className="text-red-500">*</span>
-                                    </label>
-                                    <select
-                                        id="type_prestation"
-                                        name="type_prestation"
-                                        required
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy bg-white focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition"
-                                    >
-                                        <option value="">Sélectionner...</option>
-                                        <option value="climatisation">Climatisation</option>
-                                        <option value="plomberie">Plomberie</option>
-                                        <option value="electricite">Électricité</option>
-                                        <option value="autre">Autre</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="type_intervention"
-                                        className="block text-sm font-medium text-navy mb-1.5"
-                                    >
-                                        Type d&apos;intervention{" "}
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <select
-                                        id="type_intervention"
-                                        name="type_intervention"
-                                        required
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy bg-white focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition"
-                                    >
-                                        <option value="">Sélectionner...</option>
-                                        <option value="installation">Installation</option>
-                                        <option value="entretien">Entretien</option>
-                                        <option value="depannage">Dépannage</option>
-                                        <option value="autre">Autre</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Date + Créneau */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                <div>
-                                    <label
-                                        htmlFor="date_souhaitee"
-                                        className="block text-sm font-medium text-navy mb-1.5"
-                                    >
-                                        Date souhaitée
-                                    </label>
-                                    <input
-                                        type="date"
-                                        id="date_souhaitee"
-                                        name="date_souhaitee"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition"
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="creneau"
-                                        className="block text-sm font-medium text-navy mb-1.5"
-                                    >
-                                        Créneau préféré
-                                    </label>
-                                    <select
-                                        id="creneau"
-                                        name="creneau"
-                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy bg-white focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition"
-                                    >
-                                        <option value="">Pas de préférence</option>
-                                        <option value="matin">Matin (8h-12h)</option>
-                                        <option value="apres-midi">Après-midi (14h-18h)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Message */}
-                            <div>
-                                <label
-                                    htmlFor="message"
-                                    className="block text-sm font-medium text-navy mb-1.5"
-                                >
-                                    Description du besoin{" "}
-                                    <span className="text-text-muted font-normal">
-                                        (optionnel)
-                                    </span>
-                                </label>
-                                <textarea
-                                    id="message"
-                                    name="message"
-                                    rows={4}
-                                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition resize-y"
-                                    placeholder="Décrivez votre besoin ou votre problème..."
-                                />
-                            </div>
-
-                            {/* RGPD */}
-                            <div className="flex items-start gap-3">
-                                <input
-                                    type="checkbox"
-                                    id="rgpd_consent"
-                                    name="rgpd_consent"
-                                    required
-                                    className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-light focus:ring-blue-light/30"
-                                />
-                                <label
-                                    htmlFor="rgpd_consent"
-                                    className="text-sm text-text-muted leading-relaxed"
-                                >
-                                    J&apos;accepte que mes données soient utilisées pour traiter
-                                    ma demande.{" "}
+                                <h3 className="font-semibold text-navy mb-1">
+                                    Vous préférez nous appeler directement ?
+                                </h3>
+                                <p className="text-text-muted text-sm leading-relaxed">
+                                    Nous sommes joignables du lundi au vendredi de 8h00 à 18h00
+                                    et le samedi de 8h00 à 12h00 au{" "}
                                     <a
-                                        href="/politique-de-confidentialite"
-                                        className="text-blue-light hover:underline"
+                                        href="tel:0470437780"
+                                        className="text-accent font-semibold hover:underline"
                                     >
-                                        Voir notre politique de confidentialité
+                                        04 70 43 77 80
                                     </a>
-                                    . <span className="text-red-500">*</span>
-                                </label>
+                                    .
+                                </p>
                             </div>
-
-                            {/* Submit */}
-                            <button
-                                type="submit"
-                                disabled={formStatus === "submitting"}
-                                className="w-full bg-accent hover:bg-accent-hover disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold px-6 py-4 rounded-xl btn-transition shadow-sm hover:shadow-md flex items-center justify-center gap-2 text-lg"
-                            >
-                                {formStatus === "submitting" ? (
-                                    <>
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Envoi en cours...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Send className="w-5 h-5" />
-                                        Envoyer ma demande
-                                    </>
-                                )}
-                            </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </section>

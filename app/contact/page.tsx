@@ -28,6 +28,7 @@ export default function ContactPage() {
             email: formData.get("email") as string,
             sujet: formData.get("sujet") as string,
             message: formData.get("message") as string,
+            rgpd_consent: formData.get("rgpd_consent") === "on",
         };
 
         try {
@@ -112,7 +113,7 @@ export default function ContactPage() {
                                     <div>
                                         <p className="font-medium text-navy text-sm">Adresse</p>
                                         <p className="text-text-muted text-sm">
-                                            Adresse à compléter
+                                            Zone d&apos;intervention : Moulins et alentours (50 km)
                                         </p>
                                     </div>
                                 </div>
@@ -227,6 +228,32 @@ export default function ContactPage() {
                                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 text-navy placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-light/30 focus:border-blue-light btn-transition resize-y"
                                                     placeholder="Votre message..."
                                                 />
+                                            </div>
+
+                                            {/* RGPD Consent */}
+                                            <div className="flex items-start gap-3">
+                                                <input
+                                                    type="checkbox"
+                                                    id="rgpd_consent"
+                                                    name="rgpd_consent"
+                                                    required
+                                                    className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-light focus:ring-blue-light/30"
+                                                />
+                                                <label
+                                                    htmlFor="rgpd_consent"
+                                                    className="text-sm text-text-muted leading-relaxed"
+                                                >
+                                                    J&apos;accepte que mes données soient
+                                                    utilisées pour traiter ma demande.{" "}
+                                                    <a
+                                                        href="/politique-de-confidentialite"
+                                                        className="text-blue-light hover:underline"
+                                                    >
+                                                        Voir notre politique de confidentialité
+                                                    </a>
+                                                    .{" "}
+                                                    <span className="text-red-500">*</span>
+                                                </label>
                                             </div>
 
                                             <button

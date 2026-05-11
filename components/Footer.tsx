@@ -12,13 +12,13 @@ export default function Footer() {
                         <div className="flex items-center gap-3 mb-4">
                             <Image
                                 src="/logo.png"
-                                alt="SARL Ravolet"
+                                alt="SARL RAVOLET"
                                 width={44}
                                 height={44}
-                                className="h-11 w-11 object-contain brightness-0 invert"
+                                className="h-14 w-14 object-contain"
                             />
                             <div>
-                                <span className="text-lg font-bold block">SARL Ravolet</span>
+                                <span className="text-lg font-bold block">SARL RAVOLET</span>
                                 <span className="text-sm text-blue-lighter opacity-80 block">
                                     Votre confort, Notre mission
                                 </span>
@@ -45,7 +45,7 @@ export default function Footer() {
                             </a>
                             <div className="flex items-start gap-3 text-sm text-gray-300">
                                 <MapPin className="w-4 h-4 text-blue-light shrink-0 mt-0.5" />
-                                <span>Adresse à compléter</span>
+                                <span>Zone d&apos;intervention : Moulins et alentours (50 km)</span>
                             </div>
                         </div>
                     </div>
@@ -57,6 +57,7 @@ export default function Footer() {
                             {[
                                 { href: "/", label: "Accueil" },
                                 { href: "/services", label: "Nos services" },
+                                { href: "/realisations", label: "Nos réalisations" },
                                 { href: "/rendez-vous", label: "Prendre rendez-vous" },
                                 { href: "/a-propos", label: "À propos" },
                                 { href: "/contact", label: "Contact" },
@@ -101,7 +102,7 @@ export default function Footer() {
 
                 {/* Bottom bar */}
                 <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
-                    <p>© 2026 SARL Ravolet — Tous droits réservés</p>
+                    <p>© 2026 SARL RAVOLET — Tous droits réservés</p>
                     <div className="flex gap-4">
                         <Link
                             href="/mentions-legales"

@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CookieBanner from "@/components/CookieBanner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,11 +14,11 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "SARL Ravolet — Climatisation, Plomberie & Électricité",
-    template: "%s | SARL Ravolet",
+    default: "SARL RAVOLET — Climatisation, Plomberie & Électricité",
+    template: "%s | SARL RAVOLET",
   },
   description:
-    "SARL Ravolet, votre spécialiste en climatisation, plomberie et électricité. Installation, entretien et dépannage. Appelez-nous au 04 70 43 77 80.",
+    "SARL RAVOLET, votre spécialiste en climatisation, plomberie et électricité. Installation, entretien et dépannage. Appelez-nous au 04 70 43 77 80.",
   keywords: [
     "climatisation",
     "plomberie",
@@ -25,10 +26,10 @@ export const metadata: Metadata = {
     "dépannage",
     "installation",
     "entretien",
-    "SARL Ravolet",
+    "SARL RAVOLET",
   ],
   openGraph: {
-    title: "SARL Ravolet — Climatisation, Plomberie & Électricité",
+    title: "SARL RAVOLET — Climatisation, Plomberie & Électricité",
     description:
       "Votre confort, Notre mission. Spécialiste en climatisation, plomberie et électricité.",
     type: "website",
@@ -47,6 +48,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   );

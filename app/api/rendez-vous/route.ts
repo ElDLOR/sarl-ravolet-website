@@ -32,6 +32,8 @@ export async function POST(request: Request) {
         }
 
         // Insert into Supabase
+        // Note: ajouter la colonne consent_date à la table rendez_vous dans Supabase :
+        // ALTER TABLE rendez_vous ADD COLUMN consent_date TIMESTAMPTZ NOT NULL DEFAULT now();
         const { error: dbError } = await supabase.from("rendez_vous").insert({
             nom,
             telephone,
@@ -42,6 +44,7 @@ export async function POST(request: Request) {
             creneau: creneau || null,
             message: message || null,
             rgpd_consent,
+            consent_date: new Date().toISOString(),
         });
 
         if (dbError) {

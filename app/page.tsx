@@ -11,7 +11,9 @@ import {
   Star,
   ArrowRight,
 } from "lucide-react";
+import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
+import AvisClients from "@/components/AvisClients";
 
 const services = [
   {
@@ -67,27 +69,6 @@ const strengths = [
   },
 ];
 
-const testimonials = [
-  {
-    name: "Marie D.",
-    rating: 5,
-    comment:
-      "Excellente prestation pour l'installation de notre climatisation. Équipe ponctuelle et professionnelle. Je recommande vivement !",
-  },
-  {
-    name: "Jean-Pierre L.",
-    rating: 5,
-    comment:
-      "Intervention rapide pour une fuite d'eau un dimanche. Très réactifs et travail impeccable. Merci à toute l'équipe.",
-  },
-  {
-    name: "Sophie M.",
-    rating: 4,
-    comment:
-      "Mise aux normes de notre tableau électrique réalisée avec soin. Explications claires et devis respecté. Très satisfaite.",
-  },
-];
-
 export default function HomePage() {
   return (
     <>
@@ -101,9 +82,17 @@ export default function HomePage() {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 leading-tight">
-            SARL Ravolet
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 leading-tight">
+            SARL RAVOLET
           </h1>
+          <Image
+            src="/logo.png"
+            alt="SARL RAVOLET"
+            width={300}
+            height={300}
+            className="mx-auto mb-2 h-52 w-52 md:h-[300px] md:w-[300px] object-contain"
+            priority
+          />
           <p className="text-xl sm:text-2xl md:text-3xl text-blue-lighter font-light mb-6">
             Votre confort, Notre mission
           </p>
@@ -236,47 +225,7 @@ export default function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 md:py-24 bg-bg-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal>
-            <div className="text-center mb-14">
-              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
-                Ce que disent nos clients
-              </h2>
-              <p className="text-text-muted max-w-xl mx-auto">
-                La satisfaction de nos clients est notre meilleure carte de
-                visite.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {testimonials.map((testimonial, index) => (
-              <ScrollReveal key={testimonial.name} delay={index * 100}>
-                <div className="bg-white rounded-2xl p-7 border border-gray-100 card-hover h-full flex flex-col">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${i < testimonial.rating
-                            ? "text-accent fill-accent"
-                            : "text-gray-200"
-                          }`}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-text-muted text-sm leading-relaxed flex-1 mb-4">
-                    &ldquo;{testimonial.comment}&rdquo;
-                  </p>
-                  <p className="font-semibold text-navy text-sm">
-                    {testimonial.name}
-                  </p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <AvisClients />
     </>
   );
 }

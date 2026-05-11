@@ -8,6 +8,7 @@ import { Menu, X, Phone } from "lucide-react";
 const navLinks = [
     { href: "/", label: "Accueil" },
     { href: "/services", label: "Services" },
+    { href: "/realisations", label: "Réalisations" },
     { href: "/a-propos", label: "À propos" },
     { href: "/contact", label: "Contact" },
 ];
@@ -37,7 +38,7 @@ export default function Header() {
                     <Link href="/" className="flex items-center gap-3 shrink-0">
                         <Image
                             src="/logo.png"
-                            alt="SARL Ravolet"
+                            alt="SARL RAVOLET"
                             width={48}
                             height={48}
                             className="h-10 w-10 md:h-12 md:w-12 object-contain"
@@ -45,7 +46,7 @@ export default function Header() {
                         />
                         <div className="hidden sm:block">
                             <span className="text-lg font-bold text-navy leading-tight block">
-                                SARL Ravolet
+                                SARL RAVOLET
                             </span>
                             <span className="text-xs text-text-muted leading-tight block">
                                 Votre confort, Notre mission
