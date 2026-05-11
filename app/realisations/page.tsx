@@ -152,10 +152,10 @@ export default function RealisationsPage() {
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <a
-                            href="/rendez-vous"
+                            href="/contact"
                             className="bg-accent hover:bg-accent-hover text-white font-semibold px-8 py-3.5 rounded-xl btn-transition shadow-sm hover:shadow-md"
                         >
-                            Prendre rendez-vous
+                            Nous contacter
                         </a>
                         <a
                             href="tel:0470437780"

@@ -208,17 +208,17 @@ export default function ServicesPage() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <ScrollReveal>
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                            Un projet ? Demandez un rendez-vous gratuit
+                            Un projet ? Contactez-nous
                         </h2>
                         <p className="text-blue-lighter text-lg mb-6 max-w-2xl mx-auto">
                             Nos techniciens se déplacent chez vous pour évaluer vos besoins et
                             vous proposer une solution adaptée.
                         </p>
                         <Link
-                            href="/rendez-vous"
+                            href="/contact"
                             className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold px-8 py-4 rounded-xl text-lg btn-transition shadow-lg"
                         >
-                            Prendre rendez-vous
+                            Nous contacter
                             <ArrowRight className="w-5 h-5" />
                         </Link>
                     </ScrollReveal>

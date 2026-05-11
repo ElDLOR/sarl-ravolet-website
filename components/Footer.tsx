@@ -58,7 +58,6 @@ export default function Footer() {
                                 { href: "/", label: "Accueil" },
                                 { href: "/services", label: "Nos services" },
                                 { href: "/realisations", label: "Nos réalisations" },
-                                { href: "/rendez-vous", label: "Prendre rendez-vous" },
                                 { href: "/a-propos", label: "À propos" },
                                 { href: "/contact", label: "Contact" },
                             ].map((link) => (

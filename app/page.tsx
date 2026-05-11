@@ -105,10 +105,10 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/rendez-vous"
+              href="/contact"
               className="w-full sm:w-auto bg-accent hover:bg-accent-hover text-white font-semibold px-8 py-4 rounded-xl text-lg btn-transition shadow-lg hover:shadow-xl"
             >
-              Prendre rendez-vous
+              Nous contacter
             </Link>
             <Link
               href="/services"
@@ -214,11 +214,11 @@ export default function HomePage() {
               </a>
             </p>
             <Link
-              href="/rendez-vous"
+              href="/contact"
               className="inline-flex items-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold px-8 py-4 rounded-xl text-lg btn-transition shadow-lg"
             >
               <Phone className="w-5 h-5" />
-              Prendre rendez-vous
+              Nous contacter
             </Link>
           </ScrollReveal>
         </div>

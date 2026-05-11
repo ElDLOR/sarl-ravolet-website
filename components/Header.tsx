@@ -77,10 +77,10 @@ export default function Header() {
                             04 70 43 77 80
                         </a>
                         <Link
-                            href="/rendez-vous"
+                            href="/contact"
                             className="bg-accent hover:bg-accent-hover text-white font-semibold px-5 py-2.5 rounded-lg btn-transition shadow-sm hover:shadow-md"
                         >
-                            Prendre RDV
+                            Nous contacter
                         </Link>
                     </div>
 
@@ -133,11 +133,11 @@ export default function Header() {
                             04 70 43 77 80
                         </a>
                         <Link
-                            href="/rendez-vous"
+                            href="/contact"
                             onClick={() => setIsOpen(false)}
                             className="mt-2 bg-accent hover:bg-accent-hover text-white font-semibold px-5 py-3 rounded-lg text-center btn-transition shadow-sm"
                         >
-                            Prendre RDV
+                            Nous contacter
                         </Link>
                     </nav>
                 </div>
