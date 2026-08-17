@@ -14,6 +14,9 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://sarl-ravolet.fr"),
+  verification: {
+    google: "APMgcWZdZwsdOypliln6BCinyyPLgiC0v47ItTjANTI",
+  },
   title: {
     default: "SARL RAVOLET — Climatisation, Plomberie & Électricité",
     template: "%s | SARL RAVOLET",
