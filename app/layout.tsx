@@ -13,6 +13,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sarl-ravolet.fr"),
   title: {
     default: "SARL RAVOLET — Climatisation, Plomberie & Électricité",
     template: "%s | SARL RAVOLET",
